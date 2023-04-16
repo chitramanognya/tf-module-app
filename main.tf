@@ -55,7 +55,7 @@ resource "aws_autoscaling_group" "main" {
   
 }
 
-resource "aws_security_group" "main" {
+/*resource "aws_security_group" "main" {
   name        = "${var.component}-${var.env}"
   description = "${var.component}-${var.env}"
   vpc_id      = aws_vpc.main.id
@@ -80,4 +80,4 @@ resource "aws_security_group" "main" {
   tags = {
     Name = "allow_tls"
   }
-}
+} */
