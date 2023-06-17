@@ -40,9 +40,7 @@ resource "aws_autoscaling_group" "main" {
   vpc_zone_identifier = var.subnets
   target_group_arns = [aws_lb_target_group.main.arn]
   
-  
-  
-  
+
   launch_template {
     id      = aws_launch_template.main.id
     version = "$Latest"
@@ -54,6 +52,18 @@ resource "aws_autoscaling_group" "main" {
     value = "${var.component}-${var.env}"
   }
   
+}
+
+resource "aws_autoscaling_policy" "asg-cpu-rule" {
+  name                   = "CPULoadDetect"
+  autoscaling_group_name = aws_autoscaling_group.main.name
+  policy_type = "TargetTrackingScaling"
+   target_tracking_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ASGAverageCPUUtilization"
+    }
+    target_value = 40.0
+  }
 }
 
 resource "aws_security_group" "main" {
